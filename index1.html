@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link href="style.css" rel="stylesheet">
+    <!-- Link bootstrap4 using CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <!-- Link jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Font Awesome Icon js -->
+    <script src="https://use.fontawesome.com/f26972590a.js"></script>
+    <!-- AOS CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+</head>
+
+<body onload="showScientific()">
+
+<!-- Nav Bar -->
+<nav class="navbar text-center mt-3">
+    <h2 class="name mb-0" >
+        <b id="calc-type">Стандартный</b>
+    </h2>
+    <button class="btn p-1 mobile-history" id="show-history-btn" onclick="showhistory()">
+        <img width="30" src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-history-instagram-flatart-icons-outline-flatarticons.png"/>
+    </button>
+</nav>
+
+
+<!-- Scientific Calculator & history -->
+<div id="Scientific">
+    <!-- Calculator & History-->
+    <div class="row">
+        <!-- Calculator -->
+        <div class="sci-calculator-grid" id="calculator"data-aos="fade-up" >
+            <div class="output"  id="sci-chnge-output">
+                <div  id="sci-previous-operand"> </div>
+                <div  id="sci-current-operand"> </div>
+                <div id="prog-ops" class="container">
+                    <div class="row ml-2">
+                        <div class="col-md-3">
+                            <select onchange="trigofunctions(this.value)" name="number-con" class="form-control  mr-3 number-convert" id="number-convert">
+                                <option value="none" disabled selected>Trigonometry</option>
+                                <option value="sin">sin</option>
+                                <option value="cos">cos</option>
+                                <option value="tan">tan</option>
+                                <option value="cot">cot</option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-5">
+                            <select  onchange="basicfunctions(this.value)"  name="number-con" class="form-control col-md-6 number-convert" id="number-convert">
+                                <option value="none" disabled selected>Functions</option>
+                                <option value="floor">floor</option>
+                                <option value="ceil">ceil</option>
+                                <option value="round">round</option>
+                                <option value="rand">rand</option>
+                                <option value="degree">degree</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="span" onclick = "clearall('sci-current-operand', 'sci-previous-operand') " >C</button>
+            <button onclick = "insert(3.14,'sci-current-operand')">Pi</button>
+            <button onclick = "insert(2.71,'sci-current-operand')">e</button>
+            <button onclick = "backspace('sci-current-operand', 'sci-previous-operand')"><img width="40" class="" src="https://img.icons8.com/ios/64/000000/clear-symbol.png"/></button>
+            <button onclick = "scientificfun('log')">log</button>
+            <button onclick = "scientificfun('1byx')">1/x</button>
+            <button onclick = "scientificfun('abs')">|X|</button>
+            <button onclick = "insert('%','sci-current-operand')">mod</button>
+            <button onclick = "scientificfun('sqrt')">√</button>
+            <button onclick = "insert('(','sci-current-operand')">(</button>
+            <button onclick = "insert(')','sci-current-operand')">)</button>
+            <button onclick = "scientificfun('factorial')">n!</button>
+            <button onclick = "insert('^','sci-current-operand')">x^y</button>
+            <button onclick = "insert('/','sci-current-operand')">÷</button>
+            <button onclick = "insert(1,'sci-current-operand')" value="1">1</button>
+            <button onclick = "insert(2,'sci-current-operand')" value="2">2</button>
+            <button onclick = "insert(3,'sci-current-operand')" value="3">3</button>
+            <button onclick = "scientificfun('10raisex')">10^x</button>
+            <button onclick = "insert('*','sci-current-operand')">*</button>
+            <button onclick = "insert(4,'sci-current-operand')" value="4">4</button>
+            <button onclick = "insert(5,'sci-current-operand')" value="5">5</button>
+            <button onclick = "insert(6,'sci-current-operand')" value="6">6</button>
+            <button onclick = "scientificfun('square')">x^2</button>
+            <button onclick = "insert('+','sci-current-operand')">+</button>
+            <button onclick = "insert(7,'sci-current-operand')" value="7">7</button>
+            <button onclick = "insert(8,'sci-current-operand')" value="8">8</button>
+            <button onclick = "insert(9,'sci-current-operand')" value="9">9</button>
+            <button onclick = "scientificfun('cube')">x^3</button>
+            <button onclick = "insert('-','sci-current-operand')">-</button>
+            <button onclick = "insert('-','sci-current-operand')" class="bottom-left">+/-</button>
+            <button onclick = "insert(0,'sci-current-operand')">0</button>
+            <button onclick = "insert('.','sci-current-operand')">.</button>
+            <button class="span-two" onclick="equal('sci-current-operand', 'sci-previous-operand', 'sci-query', 'sci-history')">=</button>
+        </div>
+
+        <!-- History -->
+        <div class=" p-3 " id="sci-operation-history" data-aos="fade-up">
+            <h2>History</h2>
+            <button onclick = "clearhistory('sci-query', 'sci-history')" type="button" class="btn p-1 clear-history">
+                <img width="30" src="https://img.icons8.com/external-kiranshastry-lineal-color-kiranshastry/64/000000/external-delete-miscellaneous-kiranshastry-lineal-color-kiranshastry.png"/>
+            </button>
+            <div id="sci-query" class="display-history"> </div>
+            <div id="sci-history" class="display-history"> </div>
+        </div>
+    </div>
+    <br>
+</div>
+<!-- JS file -->
+<script type="text/javascript" src="script.js"></script>
+<script>
+    AOS.init();
+</script>
+</body>
+</html>
